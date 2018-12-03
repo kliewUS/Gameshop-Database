@@ -7,12 +7,12 @@ public class CSE111_Proj {
 	
 	public static void insertTuple(Connection conn) throws SQLException{
 		 PreparedStatement stat = null;
-		 
+
 		 String table = " ";
 	     Scanner in = new Scanner (System.in);
-		 
-		 int input = 0;	 
-		 
+
+		 int input = 0;
+
 		 //1 - console
 		 //2 - customer
 		 //3 - developer
@@ -278,226 +278,25 @@ public class CSE111_Proj {
 					
 					if(table == "console"){
 						
-						System.out.println("Enter 1 if you want to delete a console from the database");
-						System.out.println("Enter 2 if you want to delete a console in a region from the database");
-						System.out.println("Enter any key to terminate the deletion.");
-						int prompt = in.nextInt();
-						
-						if(prompt == 1){
-							
-							System.out.println("Enter the console key: ");
-							int conkey = in.nextInt();
-							
-							SQL = "DELETE FROM " + table + " WHERE con_consolekey = ?";
-							
-							stat = conn.prepareStatement(SQL);
-												
-							stat.setInt(1, conkey);
-							
-							
-						}else if (prompt == 2){
-							
-							System.out.println("Enter the console key: ");
-							int conkey = in.nextInt();
-							
-							System.out.println("Enter the region key: ");							
-							int regionkey = in.nextInt();
-							
-							SQL = "DELETE FROM " + table + " WHERE con_consolekey = ? AND con_regionkey = ?";
-							
-							stat = conn.prepareStatement(SQL);
-												
-							stat.setInt(1, conkey);
-							stat.setInt(2, regionkey);
-							
-						}else{
-							return;
-						}
-						
 					}else if(table == "customer"){
-						//1. Delete by c_key - Doesn't exist anymore
-						
-						System.out.println("Enter the customer key: ");
-						int custkey = in.nextInt();
-						
-						SQL = "DELETE FROM " + table + " WHERE c_custkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, custkey);
 						
 					}else if(table == "developer"){
-						//1. Delete by d_key - Doesn't exist anymore
-						//2. Delete by d_publisher - Doesn't exist anymore
-						
-						System.out.println("Enter 1 if you want to delete a specified developer from the DB");
-						System.out.println("Enter 2 if you want to delete a specified publisher from the DB");
-						System.out.println("Enter any key to terminate the deletion.");
-						int prompt = in.nextInt();
-						
-						if(prompt == 1){
-							
-						System.out.println("Enter the developer key: ");
-						int devkey = in.nextInt();
-						
-						SQL = "DELETE FROM " + table + " WHERE d_devkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, devkey);
-						
-							
-						}else if(prompt == 2){
-							
-						in.nextLine();
-						
-						System.out.println("Enter the publisher name: ");
-						String pubname = in.nextLine();
-						
-						SQL = "DELETE FROM " + table + " WHERE d_publisher = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setString(1, pubname);
-						
-							
-						}else{
-							return;
-						}
-						
 						
 					}else if(table == "game"){
-						//Save for last.
-						//1. Delete by gamekey - Doesn't exist anymore/Not selling well.
-						//2. Delete by devkey - Doesn't exist anymore/Liquidated.
-						//3. Delete by regionkey with either dev or gamekey - Not selling well.
-						//4. Delete old games (release date)
-						//5. Delete by console key based on gamekey and/or region
-						System.out.println("Enter 1 if you want to delete a specified game");
-						System.out.println("Enter 2 if you want to delete all games from a developer");
-						System.out.println("Enter 3 if you want to delete a specified game from a region");
-						System.out.println("Enter 4 if you want to delete records that are released eariler than the specified date");
-						System.out.println("Enter 5 if you want to delete a game in a specified console platform in a region");
-						System.out.println("Enter any key to terminate the deletion.");
-						int prompt = in.nextInt();
-						
-						if(prompt == 1){
-							
-						System.out.println("Enter the game key: ");
-						int gamekey = in.nextInt();
-							
-						SQL = "DELETE FROM " + table + " WHERE g_gamekey = ?";
-							
-						stat = conn.prepareStatement(SQL);
-							
-						stat.setInt(1, gamekey);
-							
-						}else if(prompt == 2){
-							
-						System.out.println("Enter the developer key: ");
-						int devkey = in.nextInt();
-								
-						SQL = "DELETE FROM " + table + " WHERE g_devkey = ?";
-								
-						stat = conn.prepareStatement(SQL);
-								
-						stat.setInt(1, devkey);
-							
-						}else if(prompt == 3){
-							
-						System.out.println("Enter the game key: ");
-						int gamekey = in.nextInt();
-						
-						System.out.println("Enter the region key: ");
-						int regionkey = in.nextInt();
-								
-						SQL = "DELETE FROM " + table + " WHERE g_gamekey = ? AND g_regionkey = ?";
-								
-						stat = conn.prepareStatement(SQL);
-								
-						stat.setInt(1, gamekey);
-						stat.setInt(2, regionkey);
-							
-						}else if(prompt == 4){
-							
-						System.out.println("Enter the date: ");
-					    String date = in.next();							
-							
-						SQL = "DELETE FROM " + table + " WHERE g_releasedate <= ?";
-							
-						stat = conn.prepareStatement(SQL);
-									
-						stat.setString(1, date);
-							
-						}else if(prompt == 5){
-							
-						System.out.println("Enter the game key: ");
-						int gamekey = in.nextInt();
-							
-						System.out.println("Enter the region key: ");
-						int regionkey = in.nextInt();
-						
-						System.out.println("Enter the console key: ");
-						int conkey = in.nextInt();
-									
-						SQL = "DELETE FROM " + table + " WHERE g_gamekey = ? AND g_regionkey = ? AND g_consolekey = ?";
-									
-						stat = conn.prepareStatement(SQL);
-									
-						stat.setInt(1, gamekey);
-						stat.setInt(2, regionkey);
-						stat.setInt(3, conkey);
-							
-						}else{
-							
-						}
-						
 						
 					}else if(table == "inventory"){
-						//1. Delete custkey due to canceled/fulfilled order.
-						System.out.println("Enter the customer key: ");
-						int custkey = in.nextInt();
-						
-						SQL = "DELETE FROM " + table + " WHERE i_custkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, custkey);
 						
 					}else if(table == "region"){
-						//1. Delete by regionkey
-						System.out.println("Enter the region key: ");
-						int regionkey = in.nextInt();
-						
-						SQL = "DELETE FROM " + table + " WHERE r_regionkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, regionkey);
 						
 					}else if(table == "sales"){
-						//1. Delete sales less than a set amount
-						System.out.println("Enter amount of sales: ");
-						int sales = in.nextInt();
 						
-						SQL = "DELETE FROM " + table + " WHERE s_sales < ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, sales);
 					}
-	
-					int del = stat.executeUpdate();
-					
-					System.out.println(del + " Record(s) successfully deleted");
-					
-					conn.commit();
 					
 				}	
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("");
-			System.out.println("Delete failed. Rollbacking...");
+			System.out.println("Insertion failed. Rollbacking...");
 			conn.rollback();
 		}		
 	}
@@ -547,292 +346,21 @@ public class CSE111_Proj {
 					 
 					String SQL = " ";
 					
-					//Should not be changing up keys.
 					if(table == "console"){
-						//1. Price Rise/Reduction
-						
-						System.out.println("Enter the console key you want to update: ");
-						int conkey = in.nextInt();
-						
-						System.out.println("Enter the region key you want to update: ");
-						int regionkey = in.nextInt();
-						
-						System.out.println("Enter the price: ");
-						double price = in.nextDouble();
-						
-						
-						SQL = "UPDATE " + table + " SET con_price = ? " + " WHERE con_consolekey = ? AND con_regionkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setDouble(1, price);
-						stat.setInt(2, conkey);
-						stat.setInt(3, regionkey);
-						
 						
 					}else if(table == "customer"){
-						//1. c_name - Person under new name.
-						//2. c_phone - Changed Phone num.
-						//3. c_address - Change address/Moved
-						//4. c_credcardnum - Changed Credit Cards.
-						
-						System.out.println("Enter 1 if you want to update a customer name");
-						System.out.println("Enter 2 if you want to update a customer phone number");
-						System.out.println("Enter 3 if you want to update a customer address");
-						System.out.println("Enter 4 if you want to update a customer credcardnum");						
-						System.out.println("Enter any key to terminate the update.");
-						int prompt = in.nextInt();
-						
-						if(prompt == 1){
-							
-						System.out.println("Enter the customer key you want to update: ");
-						int custkey = in.nextInt();
-						
-						in.nextLine();
-						
-						System.out.println("Enter the new name: ");
-						
-						String name = in.nextLine();
-							
-						SQL = "UPDATE " + table + " SET c_name = ? " + " WHERE c_custkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setString(1, name);
-						stat.setInt(2, custkey);
-							
-						}else if(prompt == 2){
-							
-						System.out.println("Enter the customer key you want to update: ");
-						int custkey = in.nextInt();
-							
-						System.out.println("Enter the new phone number: ");
-							
-						String phonenum = in.next();
-						
-						SQL = "UPDATE " + table + " SET c_phone = ? " + " WHERE c_custkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setString(1, phonenum);
-						stat.setInt(2, custkey);
-							
-						}else if(prompt == 3){
-							
-						System.out.println("Enter the customer key you want to update: ");
-						int custkey = in.nextInt();
-						
-						in.nextLine();
-								
-						System.out.println("Enter the new address: ");
-								
-						String address = in.nextLine();
-							
-						SQL = "UPDATE " + table + " SET c_address = ? " + " WHERE c_custkey = ?";
-							
-						stat = conn.prepareStatement(SQL);
-							
-						stat.setString(1, address);
-						stat.setInt(2, custkey);
-							
-						}else if(prompt == 4){
-							
-						System.out.println("Enter the customer key you want to update: ");
-						int custkey = in.nextInt();
-									
-						System.out.println("Enter the new credit card number: ");
-									
-						String credcardnum = in.next();
-								
-						SQL = "UPDATE " + table + " SET c_credcardnum = ? " + " WHERE c_custkey = ?";
-								
-						stat = conn.prepareStatement(SQL);
-								
-						stat.setString(1, credcardnum);
-						stat.setInt(2, custkey);
-							
-						}else{
-							return;
-						}
-						
 						
 					}else if(table == "developer"){
-						//1. d_name - Renamed
-						//2. d_publisher - Changed Ownership or Renamed.
-						//3. d_address - Changed address.
-						
-						System.out.println("Enter 1 if you want to update a developer name");
-						System.out.println("Enter 2 if you want to update a publisher name");
-						System.out.println("Enter 3 if you want to update an office address");						
-						System.out.println("Enter any key to terminate the update.");
-						int prompt = in.nextInt();
-						
-						if(prompt == 1){
-							
-						System.out.println("Enter the developer key you want to update: ");
-						int devkey = in.nextInt();
-						
-						in.nextLine();
-						
-						System.out.println("Enter the new developer name: ");
-						
-						String devname = in.nextLine();
-						
-						SQL = "UPDATE " + table + " SET d_devname = ? " + " WHERE d_devkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-								
-						stat.setString(1, devname);
-						stat.setInt(2, devkey);
-							
-						}else if(prompt == 2){
-						
-						in.nextLine();
-						
-						System.out.println("Enter the publisher name you want to update: ");
-						
-						String pubname_in = in.nextLine();
-						
-						System.out.println("Enter the new publisher name: ");
-						
-						String pubname_out = in.nextLine();	
-						
-						SQL = "UPDATE " + table + " SET d_publisher = ? " + " WHERE d_publisher = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-								
-						stat.setString(1, pubname_out);
-						stat.setString(2, pubname_in);
-						
-							
-						}else if(prompt == 3){
-							
-						System.out.println("Enter the developer key you want to update: ");
-						int devkey = in.nextInt();
-							
-						in.nextLine();
-							
-						System.out.println("Enter the new developer name: ");
-							
-						String address = in.nextLine();
-							
-						SQL = "UPDATE " + table + " SET d_officeaddress = ? " + " WHERE d_devkey = ?";
-							
-						stat = conn.prepareStatement(SQL);
-									
-						stat.setString(1, address);
-						stat.setInt(2, devkey);
-							
-						}else{
-							return;
-						}
-						
 						
 					}else if(table == "game"){
-						//1. g_price with specifed regionkey, consolekey, gamekey. Price rise/reduction
-						
-						System.out.println("Enter the console key you want to update to: ");
-						int conkey = in.nextInt();
-						
-						System.out.println("Enter the region key you want to update to: ");
-						int regionkey = in.nextInt();
-						
-						System.out.println("Enter the game key you want to update to: ");
-						int gamekey = in.nextInt();
-						
-						System.out.println("Enter the price: ");
-						double price = in.nextDouble();
-						
-						SQL = "UPDATE " + table + " SET g_price = ? " + " WHERE g_consolekey = ? AND g_regionkey = ? AND g_gamekey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setDouble(1, price);
-						stat.setInt(2, conkey);
-						stat.setInt(3, regionkey);
-						stat.setInt(4, gamekey);
-						
 						
 					}else if(table == "inventory"){
-						//1. i_gamekey with i_consolekey and i_price changing.
-						
-						System.out.println("Enter the customer key you want to update: ");
-						int custkey = in.nextInt();
-						
-						System.out.println("Enter the game key you want to update: ");
-						int gamekey_out = in.nextInt();
-						
-						System.out.println("Enter the console key you want to update: ");
-						int conkey_out = in.nextInt();
-						
-						System.out.println("Enter the new game key: ");
-						int gamekey_in = in.nextInt();
-						
-						System.out.println("Enter the new console key: ");
-						int conkey_in = in.nextInt();
-						
-						System.out.println("Enter the price: ");
-						double price = in.nextDouble();
-						
-						SQL = "UPDATE " + table + " SET i_gamekey = ?, i_consolekey = ?, i_price = ? " + " WHERE i_custkey = ? AND i_gamekey = ? AND i_consolekey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, gamekey_in);
-						stat.setInt(2, conkey_in);
-						stat.setDouble(3, price);
-						stat.setInt(4, custkey);
-						stat.setInt(5, gamekey_out);
-						stat.setInt(6, conkey_out);
-						
 						
 					}else if(table == "region"){
-						//1. Change region name? Why do that? (Might remove later.)
-						
-						System.out.println("Enter the region key you want to update to: ");
-						int regionkey = in.nextInt();
-						
-						System.out.println("Enter the new region name");
-						String region_name = in.next();
-						
-						SQL = "UPDATE " + table + " SET r_regionname = ? " + " WHERE r_regionkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setString(1, region_name);
-						stat.setInt(2, regionkey);
 						
 					}else if(table == "sales"){
-						//1. Change sales to reflect current sales.
 						
-						System.out.println("Enter the game key you want to update to: ");
-						int gamekey = in.nextInt();
-						
-						System.out.println("Enter the console key you want to update to: ");
-						int conkey = in.nextInt();
-						
-						System.out.println("Enter the region key you want to update to: ");
-						int regionkey = in.nextInt();
-						
-						System.out.println("Enter the number of sales: ");
-						int sales = in.nextInt();
-						
-						SQL = "UPDATE " + table + " SET s_sales = ? " + " WHERE s_gamekey = ? AND s_consolekey = ? AND s_regionkey = ?";
-						
-						stat = conn.prepareStatement(SQL);
-						
-						stat.setInt(1, sales);
-						stat.setInt(2, gamekey);
-						stat.setInt(3, conkey);
-						stat.setInt(4, regionkey);						
 					}
-					
-					int up = stat.executeUpdate();
-					
-					System.out.println(up + " Record(s) successfully updated");
-					
-					conn.commit();
 					
 				}
 		} catch (SQLException e) {
@@ -842,7 +370,7 @@ public class CSE111_Proj {
 			conn.rollback();
 		}		
 	}
-	
+
     public static void select(Connection conn) throws SQLException{
         PreparedStatement stat = null;
 
@@ -862,31 +390,31 @@ public class CSE111_Proj {
         try {
 
             while(input != -1){
-                System.out.println("Choose a Query to Execute: ");
-                System.out.println("Enter 1 to select customer inventory.");
-                System.out.println("Enter 2 to insert to customer.");
-                System.out.println("Enter 3 to insert to developer.");
-                System.out.println("Enter 4 to insert to game.");
-                System.out.println("Enter 5 to insert to inventory.");
-                System.out.println("Enter 6 to insert to region.");
-                System.out.println("Enter 7 to insert to sales.");
+                System.out.println("Choose a Section of the Database to Search: ");
+                System.out.println("Enter 1 to Search Customer Inventory.");
+                System.out.println("Enter 2 to View Video Game Sales.");
+                System.out.println("Enter 3 to View a Customer's Information.");
+                System.out.println("Enter 4 to View Game Price and Developer.");
+                System.out.println("Enter 5 to Access Developer Information.");
+                System.out.println("Enter 6 to Find Games made by certain Developer.");
+                System.out.println("Enter 7 to View Console Information.");
                 System.out.println("Enter -1 to stop inserting.");
                 input = in.nextInt();
 
                 if(input == 1){
                     table = "customerinventory";
                 }else if (input == 2){
-                    table = "customer";
+                    table = "vgsales";
                 }else if (input == 3){
-                    table = "developer";
+                    table = "custinfo";
                 }else if (input == 4){
-                    table = "game";
+                    table = "gameinfo";
                 }else if (input == 5){
-                    table = "inventory";
+                    table = "devinfo";
                 }else if (input == 6){
-                    table = "region";
+                    table = "gamebydev";
                 }else if (input == 7){
-                    table = "sales";
+                    table = "console";
                 }else if (input == -1){
                     return;
                 }else{
@@ -898,26 +426,149 @@ public class CSE111_Proj {
                 String SQL = " ";
 
                 if(table == "customerinventory"){
-
-                }else if(table == "customer"){
-                	
-                }else if(table == "developer"){
-
-                }else if(table == "game"){
-
-                }else if(table == "inventory"){
+                    in.nextLine();
+                    System.out.print("Enter Customer Name = ");
+                    String custname = in.nextLine();
 
 
-                }else if(table == "region"){
+                    SQL = "SELECT * FROM customer_inventory WHERE c_name like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, custname + "%");
+
+					ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+
+                        System.out.println(rs.getString("c_name") + " | " + rs.getString("g_gamename") + " | " + rs.getString("con_name") + " | " + rs.getDouble("i_price"));
+                    }
+                    System.out.println("");
 
 
-                }else if(table == "sales"){
 
+                }else if(table == "vgsales"){
+                    in.nextLine();
+                    System.out.print("Enter Video Game Name = ");
+                    String vgname = in.nextLine();
+
+
+                    SQL = "SELECT * FROM game_sales WHERE g_gamename like ? ORDER BY g_gamename;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, vgname + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("g_gamename") + " | " + rs.getString("s_sales") + " Sales | " + rs.getString("con_name") + " | " + rs.getString("r_regionname"));
+                    }
+                    System.out.println("");
+
+
+
+                }else if(table == "custinfo"){
+                    in.nextLine();
+                    System.out.print("Enter Customer Name = ");
+                    String custname = in.nextLine();
+
+
+                    SQL = "SELECT * FROM customer WHERE c_name like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, custname + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("c_name") + " | " + rs.getString("c_phone") + " | " + rs.getString("c_address") + " | " + rs.getString("c_credcardnum"));
+                    }
+                    System.out.println("");
+
+
+
+
+                }else if(table == "gameinfo"){
+                    in.nextLine();
+                    System.out.print("Enter Game Name = ");
+                    String gamename = in.nextLine();
+
+
+                    SQL = "SELECT * FROM game_info WHERE g_gamename like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, gamename + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("g_gamename") + " | $" + rs.getString("g_price") + " | RELEASED ON: " + rs.getString("g_releasedate") + " | " + rs.getString("con_name") + " | " + rs.getString("d_devname"));
+                    }
+                    System.out.println("");
+
+
+
+                }else if(table == "devinfo"){
+                    in.nextLine();
+                    System.out.print("Enter Developer Name = ");
+                    String devname = in.nextLine();
+
+
+                    SQL = "SELECT * FROM developer WHERE d_devname like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, devname + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("d_devname") + " | PUBLISHER: " + rs.getString("d_publisher") + " | " + rs.getString("d_officeaddress"));
+                    }
+                    System.out.println("");
+
+
+                }else if(table == "gamebydev"){
+                    in.nextLine();
+                    System.out.print("Enter Developer Name = ");
+                    String devname = in.nextLine();
+
+
+                    SQL = "SELECT * FROM gamebydev WHERE d_devname like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, devname + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("d_devname") + " | " + rs.getString("g_gamename") + " | $" + rs.getString("g_price") + " | " + rs.getString("con_name"));
+                    }
+                    System.out.println("");
+
+
+                }else if(table == "console"){
+                    in.nextLine();
+                    System.out.print("Enter Console Name = ");
+                    String conname = in.nextLine();
+
+
+                    SQL = "SELECT * FROM console, region WHERE con_regionkey = r_regionkey AND con_name like ?;";
+                    stat = conn.prepareStatement(SQL);
+
+                    stat.setString(1, conname + "%");
+
+                    ResultSet rs = stat.executeQuery();
+
+                    while (rs.next()) {
+                        System.out.println(rs.getString("con_name") + " | " + rs.getString("con_mfgr") + " | " + rs.getString("con_price") + " | " + rs.getString("r_regionname"));
+                    }
+                    System.out.println("");
                 }
 
-                stat.executeUpdate();
+               // stat.executeUpdate();
 
-                System.out.println("Record successfully inserted");
+                System.out.println("Search Successful" + "\n");
 
                 conn.commit(); //End Transaction
 
@@ -931,9 +582,11 @@ public class CSE111_Proj {
             System.out.println("Deletion failed. Rollbacking...");
             conn.rollback();
         }
+        return;
+    }
 
-    }	
-	
+
+
 
 	public static void main(String[] args) throws ClassNotFoundException{
 	      Class.forName("org.sqlite.JDBC");
@@ -943,7 +596,7 @@ public class CSE111_Proj {
 	      
 		try {
 			int input = 0;
-			connection = DriverManager.getConnection("jdbc:sqlite:CSE111_Project.db");
+			connection = DriverManager.getConnection("jdbc:sqlite:Project.db");
 			System.out.println("GameShop Database Version 1 (11/28/2018). Manager Use Only.\n");
 			
 			while(input != -1){				
@@ -968,8 +621,7 @@ public class CSE111_Proj {
 					//SELECT
 					select(connection);
 					//Put a method to implement select statement.
-					
-					System.out.println("Functionality Coming Soon!");
+
 				}
 			}
 			
