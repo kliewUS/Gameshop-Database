@@ -870,7 +870,7 @@ public class CSE111_Proj {
                 System.out.println("Enter 5 to Access Developer Information.");
                 System.out.println("Enter 6 to Find Games made by certain Developer.");
                 System.out.println("Enter 7 to View Console Information.");
-                System.out.println("Enter -1 to stop inserting.");
+                System.out.println("Enter -1 to stop executing queries.");
                 input = in.nextInt();
 
                 if(input == 1){
@@ -1092,7 +1092,7 @@ public class CSE111_Proj {
 					select(connection);
 					//Put a method to implement select statement.
 					
-					System.out.println("Functionality Coming Soon!");
+					//System.out.println("Functionality Coming Soon!");
 				}
 			}
 			
